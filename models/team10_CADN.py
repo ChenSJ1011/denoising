@@ -239,5 +239,6 @@ class generator(nn.Module):
         out = residual_1 + out
 
         x = self.tanh(out)
+        x = (x+1)/2
         
-        return x
+        return torch.clamp(x,min=0,max=1)
