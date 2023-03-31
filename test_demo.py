@@ -36,7 +36,7 @@ def select_model(args, device):
 
     # print(model)
     model.eval()
-    tile = None
+    tile = 1024
     for k, v in model.named_parameters():
         v.requires_grad = False
     model = model.to(device)
@@ -71,7 +71,7 @@ def select_dataset(data_dir, mode):
     return path
 
 
-def forward(img_lq, model, tile=None, tile_overlap=32, scale=1):
+def forward(img_lq, model, tile=None, tile_overlap=512, scale=1):
     if tile is None:
         # test the image as a whole
         output = model(img_lq)
@@ -290,8 +290,8 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("NTIRE2023-Dn50")
-    parser.add_argument("--data_dir", default="../comCVPR/img/testNoise/", type=str)
-    parser.add_argument("--save_dir", default="../comCVPR/img/testDenoise/", type=str)
+    parser.add_argument("--data_dir", default="./dataset/", type=str)
+    parser.add_argument("--save_dir", default="./dataset/", type=str)
     parser.add_argument("--model_id", default=10, type=int)
     parser.add_argument("--include_test", action="store_true", help="Inference on the DIV2K test set")
     parser.add_argument("--hybrid_test", action="store_true", help="Hybrid test on DIV2K and LSDIR test set")
