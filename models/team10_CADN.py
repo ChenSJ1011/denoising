@@ -185,6 +185,7 @@ class discriminator(nn.Module):
         self.PAM = PAM_Module(512)
         
     def forward(self, x):
+
         batch_size = x.size(0)
         x = self.relu(self.conv1(x))
         x = self.relu(self.bn2(self.conv2(x)))
@@ -227,7 +228,7 @@ class generator(nn.Module):
         self.se = SElayer(int(num))
 
     def forward(self, x):
-        
+        x = x * 2 - 1
         residual_1 = x
         x_1 = self.relu(self.conv1(x))
         
@@ -239,6 +240,7 @@ class generator(nn.Module):
         out = residual_1 + out
 
         x = self.tanh(out)
+
         x = (x+1)/2
-        
+
         return torch.clamp(x,min=0,max=1)
